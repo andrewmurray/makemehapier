@@ -6,21 +6,18 @@ var path = require('path');
     try {
         var server = hapi.Server({
             host: 'localhost',
-            port: Number(process.argv[2] || 8080),
-            routes: {
-                files: {
-                    relativeTo: __dirname
-                }
-            }
+            port: Number(process.argv[2] || 8080)
         });
         
         await server.register(inert);
 
         server.route({
-            path: '/',
+            path: '/foo/bar/baz/{file}',
             method: 'GET',
             handler: {
-                file: 'index.html'
+                directory: {
+                    path: path.join(__dirname, './public')
+                }
             }
         });
         
